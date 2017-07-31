@@ -8,9 +8,15 @@ class FilesController extends Controller
 {
     public function list() {
 
-	$files = array();
+	$files = [];
+        $breadcrumbs = [];
 
-        return return view('listing', ['files' => $files]);
+        return view('listing', [
+            'dir' => '/',
+            'files' => $files,
+            'breadcrumbs' => $breadcrumbs,
+            'canZip' => false
+        ]);
 
     }
 }

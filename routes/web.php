@@ -11,4 +11,4 @@
 |
 */
 
-Route::get('/', 'FilesController@list')->middleware('auth.basic');;
+Route::get('/{path?}', 'FilesController@list')->name('list');

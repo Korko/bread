@@ -33,8 +33,7 @@
                 <p class="navbar-text">
                     @foreach ($breadcrumbs as $breadcrumb)
                         @if ($breadcrumb != end($breadcrumbs))
-                                <a href="{{ $breadcrumb['link'] }}">{{ $breadcrumb['text'] }}</a>
-                                <span class="divider">/</span>
+                            <a class="breadcrumb" href="{{ $breadcrumb['link'] }}">{{ $breadcrumb['text'] }}</a>
                         @else
                             {{ $breadcrumb['text'] }}
                         @endif
@@ -51,15 +50,15 @@
                         </li>
                     </ul>
 
-                    <?php  if ($lister->isZipEnabled()): ?>
+                    @if ($canZip)
                         <ul id="page-top-download-all" class="nav navbar-nav">
                             <li>
-                                <a href="?zip=<?php echo $lister->getDirectoryPath(); ?>" id="download-all-link">
+                                <a href="{{ route('list', $dir) }}?zip=1" id="download-all-link">
                                     <i class="fa fa-download fa-lg"></i>
                                 </a>
                             </li>
                         </ul>
-                    <?php endif; ?>
+                    @endif
 
                 </div>
 
@@ -67,15 +66,6 @@
         </div>
 
         <div id="page-content" class="container">
-
-            <?php if($lister->getSystemMessages()): ?>
-                <?php foreach ($lister->getSystemMessages() as $message): ?>
-                    <div class="alert alert-<?php echo $message['type']; ?>">
-                        <?php echo $message['text']; ?>
-                        <a class="close" data-dismiss="alert" href="#">&times;</a>
-                    </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
 
             <div id="directory-list-header">
                 <div class="row">
@@ -87,38 +77,38 @@
 
             <ul id="directory-listing" class="nav nav-pills nav-stacked">
 
-                <?php foreach($dirArray as $name => $fileInfo): ?>
-                    <li data-name="<?php echo $name; ?>" data-href="<?php echo $fileInfo['url_path']; ?>">
-                        <a href="<?php echo $fileInfo['url_path']; ?>" class="clearfix" data-name="<?php echo $name; ?>">
+                @foreach ($files as $file)
+                    <li data-name="{{ $file['name'] }}" data-href="{{ $file['url'] }}">
+                        <a href="{{ $file['url'] }}" class="clearfix" data-name="{{ $file['name'] }}">
 
 
                             <div class="row">
                                 <span class="file-name col-md-7 col-sm-6 col-xs-9">
-                                    <i class="fa <?php echo $fileInfo['icon_class']; ?> fa-fw"></i>
-                                    <?php echo $name; ?>
+                                    <i class="fa {{ $file['type'] 	}} fa-fw"></i>
+                                    {{ $file['name'] }}
                                 </span>
 
                                 <span class="file-size col-md-2 col-sm-2 col-xs-3 text-right">
-                                    <?php echo $fileInfo['file_size']; ?>
+                                    {{ $file['size'] }}
                                 </span>
 
                                 <span class="file-modified col-md-3 col-sm-4 hidden-xs text-right">
-                                    <?php echo $fileInfo['mod_time']; ?>
+                                    {{ $file['mod_time'] }}
                                 </span>
                             </div>
 
                         </a>
 
-                        <?php if (is_file($fileInfo['file_path'])): ?>
+                        @if (@$file['type'] === 'file')
 
                             <a href="javascript:void(0)" class="file-info-button">
                                 <i class="fa fa-info-circle"></i>
                             </a>
 
-                        <?php endif; ?>
+                        @endif
 
                     </li>
-                <?php endforeach; ?>
+                @endforeach
 
             </ul>
         </div>
@@ -129,7 +119,7 @@
 
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">{{modal_header}}</h4>
+                        <h4 class="modal-title">@{{modal_header}}</h4>
                     </div>
 
                     <div class="modal-body">
@@ -139,12 +129,12 @@
 
                                 <tr>
                                     <td class="table-title">MD5</td>
-                                    <td class="md5-hash">{{md5_sum}}</td>
+                                    <td class="md5-hash">@{{md5_sum}}</td>
                                 </tr>
 
                                 <tr>
                                     <td class="table-title">SHA1</td>
-                                    <td class="sha1-hash">{{sha1_sum}}</td>
+                                    <td class="sha1-hash">@{{sha1_sum}}</td>
                                 </tr>
 
                             </tbody>
