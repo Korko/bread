@@ -2,18 +2,18 @@
 <html lang="{{ app()->getLocale() }}">
     <head>
 
-        <title>Directory listing of <?php echo $lister->getListedPath(); ?></title>
-        <link rel="shortcut icon" href="<?php echo THEMEPATH; ?>/img/folder.png">
+        <title>Directory listing of {{ $dir }}</title>
+        <link rel="shortcut icon" href="{{ asset('img/folder.png') }}">
 
         <!-- STYLES -->
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo THEMEPATH; ?>/css/style.css">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
 
         <!-- SCRIPTS -->
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="<?php echo THEMEPATH; ?>/js/directorylister.js"></script>
+        <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 
         <!-- FONTS -->
         <link rel="stylesheet" type="text/css"  href="//fonts.googleapis.com/css?family=Cutive+Mono">
@@ -22,8 +22,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-        <?php file_exists('analytics.inc') ? include('analytics.inc') : false; ?>
 
     </head>
 
@@ -71,8 +69,6 @@
         </div>
 
         <div id="page-content" class="container">
-
-            <?php file_exists('header.php') ? include('header.php') : include($lister->getThemePath(true) . "/default_header.php"); ?>
 
             <?php if($lister->getSystemMessages()): ?>
                 <?php foreach ($lister->getSystemMessages() as $message): ?>
@@ -128,8 +124,6 @@
 
             </ul>
         </div>
-
-        <?php file_exists('footer.php') ? include('footer.php') : include($lister->getThemePath(true) . "/default_footer.php"); ?>
 
         <div id="file-info-modal" class="modal fade">
             <div class="modal-dialog">
