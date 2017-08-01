@@ -30,15 +30,15 @@
         <div id="page-navbar" class="navbar navbar-default navbar-fixed-top">
             <div class="container">
 
-                <p class="navbar-text">
+                <ol class="navbar-left breadcrumb">
                     @foreach ($breadcrumbs as $breadcrumb)
                         @if ($breadcrumb != end($breadcrumbs))
-                            <a class="breadcrumb" href="{{ $breadcrumb['link'] }}">{{ $breadcrumb['text'] }}</a>
+                            <li><a href="{{ $breadcrumb['link'] }}">{{ $breadcrumb['text'] }}</a></li>
                         @else
-                            {{ $breadcrumb['text'] }}
+                            <li class="active">{{ $breadcrumb['text'] }}</li>
                         @endif
                     @endforeach
-                </p>
+                </ol>
 
                 <div class="navbar-right">
 
@@ -78,72 +78,54 @@
             <ul id="directory-listing" class="nav nav-pills nav-stacked">
 
                 @foreach ($files as $file)
-                    <li data-name="{{ $file['name'] }}" data-href="{{ $file['url'] }}">
-                        <a href="{{ $file['url'] }}" class="clearfix" data-name="{{ $file['name'] }}">
+                    @if ($file['type'] === 'file')
+                        <li data-name="{{ $file['name'] }}" data-href="{{ $file['url'] }}">
+                            <a href="{{ $file['url'] }}" class="clearfix" data-name="{{ $file['name'] }}">
 
 
-                            <div class="row">
-                                <span class="file-name col-md-7 col-sm-6 col-xs-9">
-                                    <i class="fa {{ $file['type'] 	}} fa-fw"></i>
-                                    {{ $file['name'] }}
-                                </span>
+                                <div class="row">
+                                    <span class="file-name col-md-7 col-sm-6 col-xs-9">
+                                        <i class="fa {{ $file['type'] }} fa-fw"></i>
+                                        {{ $file['name'] }}
+                                    </span>
 
-                                <span class="file-size col-md-2 col-sm-2 col-xs-3 text-right">
-                                    {{ $file['size'] }}
-                                </span>
+                                    <span class="file-size col-md-2 col-sm-2 col-xs-3 text-right">
+                                        {{ $file['size'] }}
+                                    </span>
 
-                                <span class="file-modified col-md-3 col-sm-4 hidden-xs text-right">
-                                    {{ $file['mod_time'] }}
-                                </span>
-                            </div>
+                                    <span class="file-modified col-md-3 col-sm-4 hidden-xs text-right">
+                                        {{ $file['mod_time'] }}
+                                    </span>
+                                </div>
 
-                        </a>
-
-                        @if (@$file['type'] === 'file')
-
-                            <a href="javascript:void(0)" class="file-info-button">
-                                <i class="fa fa-info-circle"></i>
                             </a>
 
-                        @endif
+                        </li>
+                    @else
+                        <li data-name="{{ $file['name'] }}" data-href="{{ $file['url'] }}">
+                            <a href="{{ $file['url'] }}" class="clearfix" data-name="{{ $file['name'] }}">
 
-                    </li>
+                                <div class="row">
+                                    <span class="file-name col-md-7 col-sm-6 col-xs-9">
+                                        <i class="fa {{ $file['type'] }} fa-fw"></i>
+                                        {{ $file['name'] }}
+                                    </span>
+
+                                    <span class="file-size col-md-2 col-sm-2 col-xs-3 text-right">
+                                    </span>
+
+                                    <span class="file-modified col-md-3 col-sm-4 hidden-xs text-right">
+                                        {{ $file['mod_time'] }}
+                                    </span>
+                                </div>
+
+                            </a>
+
+                        </li>
+                    @endif
                 @endforeach
 
             </ul>
-        </div>
-
-        <div id="file-info-modal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">@{{modal_header}}</h4>
-                    </div>
-
-                    <div class="modal-body">
-
-                        <table id="file-info" class="table table-bordered">
-                            <tbody>
-
-                                <tr>
-                                    <td class="table-title">MD5</td>
-                                    <td class="md5-hash">@{{md5_sum}}</td>
-                                </tr>
-
-                                <tr>
-                                    <td class="table-title">SHA1</td>
-                                    <td class="sha1-hash">@{{sha1_sum}}</td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-
-                    </div>
-
-                </div>
-            </div>
         </div>
 
     </body>

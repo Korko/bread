@@ -22,18 +22,20 @@ body.breadcrumb-fixed {
 
 /* -------------------------------------------------------------------------- */
 
-#page-navbar .navbar-text {
-  display: block;
+.breadcrumb {
   float: left;
   font-family: 'Cutive Mono', monospace, serif;
   max-width: 80%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  background: none;
+  padding: 15px 0;
+  margin: 0;
 }
 
-#page-navbar .navbar-text .breadcrumb:after {
-  content: "/";
+.breadcrumb li:first-child {
+  font-weight: bold;
 }
 
 /* ---------------------------------------------------------------------------------------------- */
