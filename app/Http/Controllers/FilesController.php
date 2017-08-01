@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 class FilesController extends Controller
 {
-    public function list ($path = '')
+    public function list($path = '')
     {
         $fullpath = public_path('storage/'.$path);
         if (is_file($fullpath)) {
@@ -19,9 +19,9 @@ class FilesController extends Controller
         return response()->file($fullpath);
     }
 
-    protected function listDirectory ($path)
+    protected function listDirectory($path)
     {
-	$files = $this->getFiles(public_path('storage'), $path);
+        $files = $this->getFiles(public_path('storage'), $path);
         $breadcrumbs = $this->getBreadcrumbs($path);
 
         return view('listing', [
@@ -32,7 +32,7 @@ class FilesController extends Controller
         ]);
     }
 
-    protected function getFiles ($root, $path)
+    protected function getFiles($root, $path)
     {
         $files = scandir($root.'/'.$path);
 
@@ -42,15 +42,15 @@ class FilesController extends Controller
             } else {
                 $fullpath = $root.'/'.$path.'/'.$file;
                 $files[$i] = [
-                    'name' => $file,
-                    'type' => is_dir($fullpath) ? 'dir' : 'file',
-                    'url' => route('list', ['path' => $path.'/'.$file]),
-                    'mod_time' => filemtime($fullpath)
+                    'name'     => $file,
+                    'type'     => is_dir($fullpath) ? 'dir' : 'file',
+                    'url'      => route('list', ['path' => $path.'/'.$file]),
+                    'mod_time' => filemtime($fullpath),
                 ];
 
                 if (is_file($fullpath)) {
                     $files[$i] += [
-                        'size' => filesize($fullpath)
+                        'size' => filesize($fullpath),
                     ];
                 }
             }
@@ -59,21 +59,21 @@ class FilesController extends Controller
         return $files;
     }
 
-    protected function getBreadcrumbs ($path)
+    protected function getBreadcrumbs($path)
     {
         $parts = explode('/', $path);
 
         $breadcrumbs = [
             [
                 'text' => config('app.name'),
-                'link' => route('list')
-            ]
+                'link' => route('list'),
+            ],
         ];
 
         foreach ($parts as $i => $part) {
             $breadcrumbs[] = [
                 'text' => $part,
-                'link' => route('list', ['path' => implode('/', array_slice($parts, 0, $i + 1))])
+                'link' => route('list', ['path' => implode('/', array_slice($parts, 0, $i + 1))]),
             ];
         }
 

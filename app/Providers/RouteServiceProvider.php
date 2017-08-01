@@ -28,11 +28,11 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
 
         Route::bind('path', function ($path) {
-            if(strpos($path, './') !== FALSE) {
+            if (strpos($path, './') !== false) {
                 abort(403);
             }
 
-            if(!file_exists(public_path('storage/'.$path))) {
+            if (!file_exists(public_path('storage/'.$path))) {
                 abort(404);
             }
 
