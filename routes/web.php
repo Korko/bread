@@ -11,4 +11,4 @@
 |
 */
 
-Route::get('/{path?}', 'FilesController@list')->name('list')->where('path', '(.*)')->middleware('auth.basic');
+Route::get('/{path?}', 'FilesController@list')->name('list')->where('path', '(.*)');
