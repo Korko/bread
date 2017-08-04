@@ -24,4 +24,3 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'expiration'     => null,
     ];
 });
-
