@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'root', 'expiration'
+        'name', 'email', 'password', 'root', 'expiration',
     ];
 
     /**
@@ -41,7 +41,7 @@ class User extends Authenticatable
                     if (strpos($path, $root) === 0) {
                         return false;
                     }
-                } else if (strpos($path, $root) === 0 || strpos($root, $path) === 0) {
+                } elseif (strpos($path, $root) === 0 || strpos($root, $path) === 0) {
                     $access = true;
                 }
             }
