@@ -40,6 +40,7 @@ class FilesController extends Controller
     protected function getFiles($user, $root, $parent)
     {
         $files = scandir($root.'/'.$parent);
+        usort($files, 'strcasecmp');
 
         foreach ($files as $i => $file) {
             $relativePath = $parent.'/'.$file;

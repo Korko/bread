@@ -93,7 +93,7 @@
                                     </span>
 
                                     <span class="file-modified col-md-3 col-sm-4 hidden-xs text-right">
-                                        {{ $file['mod_time'] }}
+                                        {{ \Carbon\Carbon::createFromTimestamp($file['mod_time'])->toDateTimeString() }}
                                     </span>
                                 </div>
 
@@ -114,7 +114,7 @@
                                     </span>
 
                                     <span class="file-modified col-md-3 col-sm-4 hidden-xs text-right">
-                                        {{ $file['mod_time'] }}
+                                        {{ \Carbon\Carbon::createFromTimestamp($file['mod_time'])->toDateTimeString() }}
                                     </span>
                                 </div>
 
