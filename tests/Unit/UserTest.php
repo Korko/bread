@@ -7,7 +7,12 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    use DatabaseMigrations;
+    public function setUp()
+    {
+        parent::setUp();
+        $this->artisan('migrate:refresh');
+        $this->seed();
+    }
 
     public function testCanAccessAll()
     {
