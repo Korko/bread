@@ -29,7 +29,7 @@ class User extends Authenticatable
 
     public function canAccess($path)
     {
-        $path = str_replace('///', '/', '/'.$path);
+        $path = str_replace('//', '/', '/'.$path);
 
         $access = false;
 
@@ -41,12 +41,12 @@ class User extends Authenticatable
                     if (strpos($path, $root) === 0) {
                         return false;
                     }
-                } elseif (strpos($path, $root) === 0 || strpos($root, $path) === 0) {
+                } elseif ($path === $root || strpos($path, str_replace('//', '/', $root.'/')) === 0 || strpos($root, str_replace('//', '/', $path.'/')) === 0) {
                     $access = true;
                 }
             }
         } else {
-            $success = true;
+            $access = true;
         }
 
         return $access;
