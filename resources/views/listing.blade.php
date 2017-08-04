@@ -82,7 +82,6 @@
                         <li data-name="{{ $file['name'] }}" data-href="{{ $file['url'] }}">
                             <a href="{{ $file['url'] }}" class="clearfix" data-name="{{ $file['name'] }}">
 
-
                                 <div class="row">
                                     <span class="file-name col-md-7 col-sm-6 col-xs-9">
                                         <i class="fa {{ $file['type'] }} fa-fw"></i>

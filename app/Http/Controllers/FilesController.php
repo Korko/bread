@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Auth;
+
 class FilesController extends Controller
 {
-    public function list($path = '')
+    public function list($path = '/')
     {
         $fullpath = public_path('storage/'.$path);
+
         if (is_file($fullpath)) {
             return $this->downloadFile($fullpath);
         } else {
@@ -21,7 +25,8 @@ class FilesController extends Controller
 
     protected function listDirectory($path)
     {
-        $files = $this->getFiles(public_path('storage'), $path);
+        $user = User::find(Auth::id());
+        $files = $this->getFiles($user, public_path('storage'), $path);
         $breadcrumbs = $this->getBreadcrumbs($path);
 
         return view('listing', [
@@ -32,25 +37,27 @@ class FilesController extends Controller
         ]);
     }
 
-    protected function getFiles($root, $path)
+    protected function getFiles($user, $root, $parent)
     {
-        $files = scandir($root.'/'.$path);
+        $files = scandir($root.'/'.$parent);
 
         foreach ($files as $i => $file) {
-            if ($file[0] === '.') {
+            $relativePath = $parent.'/'.$file;
+            $absolutePath = $root.'/'.$relativePath;
+
+            if ($file[0] === '.' || !$user->canAccess($relativePath)) {
                 unset($files[$i]);
             } else {
-                $fullpath = $root.'/'.$path.'/'.$file;
                 $files[$i] = [
                     'name'     => $file,
-                    'type'     => is_dir($fullpath) ? 'dir' : 'file',
-                    'url'      => route('list', ['path' => $path.'/'.$file]),
-                    'mod_time' => filemtime($fullpath),
+                    'type'     => is_dir($absolutePath) ? 'dir' : 'file',
+                    'url'      => route('list', ['path' => $relativePath]),
+                    'mod_time' => filemtime($absolutePath)
                 ];
 
-                if (is_file($fullpath)) {
+                if (is_file($absolutePath)) {
                     $files[$i] += [
-                        'size' => filesize($fullpath),
+                        'size' => filesize($absolutePath),
                     ];
                 }
             }
@@ -62,6 +69,9 @@ class FilesController extends Controller
     protected function getBreadcrumbs($path)
     {
         $parts = explode('/', $path);
+        if ($parts[0] === '') {
+            array_shift($parts);
+        }
 
         $breadcrumbs = [
             [

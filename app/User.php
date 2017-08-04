@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'root', 'expiration'
     ];
 
     /**
@@ -26,4 +26,29 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function canAccess($path)
+    {
+        $path = str_replace('///', '/', '/'.$path);
+
+        $access = false;
+
+        if (strlen($this->root) > 0) {
+            $allowedPaths = explode(',', $this->root);
+            foreach ($allowedPaths as $root) {
+                if ($root[0] === '-') {
+                    $root = substr($root, 1);
+                    if (strpos($path, $root) === 0) {
+                        return false;
+                    }
+                } else if (strpos($path, $root) === 0 || strpos($root, $path) === 0) {
+                    $access = true;
+                }
+            }
+        } else {
+            $success = true;
+        }
+
+        return $access;
+    }
 }

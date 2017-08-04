@@ -24,11 +24,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        Gate::define('update-post', function ($user, $path) {
-            dd($user);
-
-            return true;
-        });
     }
 }

@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\AuthenticateWithBasicAuth::class,
             \App\Http\Middleware\CheckUserExpiration::class,
+            \App\Http\Middleware\CheckPath::class,
         ],
 
         'api' => [
