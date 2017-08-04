@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -24,7 +23,6 @@ class UserTest extends TestCase
         $this->assertTrue($user->canAccess('/'));
         $this->assertTrue($user->canAccess('/toto'));
     }
-
 
     public function testCanAccessLimited()
     {
