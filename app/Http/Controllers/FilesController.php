@@ -52,7 +52,7 @@ class FilesController extends Controller
                     'name'     => $file,
                     'type'     => is_dir($absolutePath) ? 'dir' : 'file',
                     'url'      => route('list', ['path' => $relativePath]),
-                    'mod_time' => filemtime($absolutePath)
+                    'mod_time' => filemtime($absolutePath),
                 ];
 
                 if (is_file($absolutePath)) {
